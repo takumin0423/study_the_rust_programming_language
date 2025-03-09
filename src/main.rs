@@ -1,45 +1,29 @@
+use std::net::{Ipv4Addr, Ipv6Addr};
+
 fn main() {
-    let rect1 = Rectangle {
-        width: 30,
-        height: 50,
-    };
-    let rect2 = Rectangle {
-        width: 10,
-        height: 40,
-    };
-    let rect3 = Rectangle {
-        width: 60,
-        height: 45,
-    };
+    let home = IpAddr::V4(Ipv4Addr::new(127, 0, 0, 1));
+    let loopback = IpAddr::V6(Ipv6Addr::new(0, 0, 0, 0, 0, 0, 0, 1));
 
-    println!(
-        "The area of the rectangle is {} square pixels.",
-        rect1.area()
-    );
+    let m = Message::Write(String::from("hello"));
+    m.call();
 
-    println!("Can rect1 hold rect2? {}", rect1.can_hold(&rect2));
-    println!("Can rect1 hold rect3? {}", rect1.can_hold(&rect3));
+    let some_number = Some(5);
+    let some_char = Some('e');
+    let absent_number: Option<i32> = None;
 }
 
-#[derive(Debug)]
-struct Rectangle {
-    width: u32,
-    height: u32,
+enum IpAddr {
+    V4(Ipv4Addr),
+    V6(Ipv6Addr),
 }
 
-impl Rectangle {
-    fn square(size: u32) -> Self {
-        Self {
-            width: size,
-            height: size,
-        }
-    }
+enum Message {
+    Quit,
+    Move { x: i32, y: i32 },
+    Write(String),
+    ChangeColor(i32, i32, i32),
+}
 
-    fn area(&self) -> u32 {
-        self.width * self.height
-    }
-
-    fn can_hold(&self, other: &Rectangle) -> bool {
-        self.width > other.width && self.height > other.height
-    }
+impl Message {
+    fn call(&self) {}
 }
