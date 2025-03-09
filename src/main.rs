@@ -1,101 +1,62 @@
 fn main() {
-    let number = 3;
+    let s = "hello";
 
-    if number < 5 {
-        println!("condition was true");
-    } else {
-        println!("condition was false");
-    }
+    let mut s = String::from("hello");
 
-    if number != 0 {
-        println!("number was something other than zero");
-    }
+    s.push_str(", world!");
 
-    let number = 6;
+    println!("{s}");
 
-    if number % 4 == 0 {
-        println!("number is divisible by 4");
-    } else if number % 3 == 0 {
-        println!("number is divisible by 3");
-    } else if number % 2 == 0 {
-        println!("number is divisible by 2");
-    } else {
-        println!("number is not divisible by 4, 3, or 2")
-    }
+    let x = 5;
+    let y = x;
 
-    let condition = true;
-    let number = if condition { 5 } else { 6 };
+    let s1 = String::from("hello");
+    let s2 = s1;
 
-    println!("The value of number is: {number}");
+    let mut s = String::from("hello");
+    s = String::from("ahoy");
 
-    // loop {
-    //     println!("again!");
-    // }
+    println!("{s}, world!");
 
-    let mut counter = 0;
+    let s1 = String::from("hello");
+    let s2 = s1.clone();
 
-    let result = loop {
-        counter += 1;
+    println!("s1 = {s1}, s2 = {s2}");
 
-        if counter == 10 {
-            break counter * 2;
-        }
-    };
+    let x = 5;
+    let y = x;
 
-    println!("The result is {result}");
+    println!("x = {x}, y = {y}");
 
-    let mut count = 0;
+    let s = String::from("hello");
 
-    'counting_up: loop {
-        println!("count = {count}");
+    takes_ownership(s);
 
-        let mut remaining = 10;
+    let x = 5;
 
-        loop {
-            println!("remaining = {remaining}");
+    makes_copy(x);
 
-            if remaining == 9 {
-                break;
-            }
+    println!("{}", x);
 
-            if count == 2 {
-                break 'counting_up;
-            }
+    let s1 = gives_ownership();
+    let s2 = String::from("hello");
+    let s3 = takes_and_gives_back(s2);
+}
 
-            remaining -= 1;
-        }
+fn takes_ownership(some_string: String) {
+    println!("{some_string}");
+}
 
-        count += 1;
-    }
+fn makes_copy(some_integer: i32) {
+    println!("{some_integer}");
+}
 
-    println!("End count = {count}");
+fn gives_ownership() -> String {
+    let some_string = String::from("yours");
 
-    let mut number = 3;
+    some_string
+}
 
-    while number != 0 {
-        println!("{number}!");
-
-        number -= 1;
-    }
-
-    println!("LIFTOFF!!!");
-
-    let a = [10, 20, 30, 40, 50];
-    let mut index = 0;
-
-    while index < 5 {
-        println!("the value is: {}", a[index]);
-
-        index += 1;
-    }
-
-    for element in a {
-        println!("the value is: {element}");
-    }
-
-    for number in (1..4).rev() {
-        println!("{number}!");
-    }
-
-    println!("LIFTOFF!!!");
+fn takes_and_gives_back(a_string: String) -> String {
+    a_string
 }
