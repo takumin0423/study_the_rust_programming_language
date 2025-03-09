@@ -1,35 +1,32 @@
 fn main() {
-    let s1 = String::from("hello");
-    let len = calculate_length(&s1);
+    let mut s = String::from("hello world");
+    let word = first_word(&s);
 
-    println!("The length of {s1} is {len}");
+    println!("the first word is: {word}");
 
-    let mut s = String::from("hello");
+    let my_string = String::from("hello world");
+    let word = first_word(&my_string[0..6]);
+    let word = first_word(&my_string[..]);
+    let word = first_word(&my_string);
 
-    change(&mut s);
+    let my_string_literal = "hello world";
+    let word = first_word(&my_string_literal[0..6]);
+    let word = first_word(&my_string_literal[..]);
+    let word = first_word(my_string_literal);
 
-    let mut s = String::from("hello");
-
-    let r1 = &s;
-    let r2 = &s;
-
-    println!("{r1} and {r2}");
-
-    let r3 = &mut s;
-
-    println!("{r3}");
+    let a = [1, 2, 3, 4, 5];
+    let slice = &a[1..3];
+    assert_eq!(slice, &[2, 3]);
 }
 
-fn calculate_length(s: &String) -> usize {
-    s.len()
-}
+fn first_word(s: &str) -> &str {
+    let bytes = s.as_bytes();
 
-fn change(some_string: &mut String) {
-    some_string.push_str(", world");
-}
+    for (i, &item) in bytes.iter().enumerate() {
+        if item == b' ' {
+            return &s[0..i];
+        }
+    }
 
-fn no_dangle() -> String {
-    let s = String::from("hello");
-
-    s
+    &s[..]
 }
