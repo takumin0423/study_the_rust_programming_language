@@ -1,41 +1,23 @@
 fn main() {
-    let mut user1 = User {
-        active: true,
-        username: String::from("someusername123"),
-        email: String::from("someone@example.com"),
-        sign_in_count: 1,
+    let rect1 = Rectangle {
+        width: 30,
+        height: 50,
     };
 
-    user1.email = String::from("anotheremaill@example.com");
+    println!(
+        "The area of the rectangle is {} square pixels.",
+        area(&rect1)
+    );
 
-    let user2 = User {
-        email: String::from("another@example.com"),
-        ..user1
-    };
-
-    let black = Color(0, 0, 0);
-    let origin = Point(0, 0, 0);
-
-    let subject = AlwaysEqual;
+    println!("rect1 is {rect1:#?}");
 }
 
-struct User {
-    active: bool,
-    username: String,
-    email: String,
-    sign_in_count: u64,
+fn area(rectangle: &Rectangle) -> u32 {
+    rectangle.width * rectangle.height
 }
 
-fn build_user(email: String, username: String) -> User {
-    User {
-        active: true,
-        username,
-        email,
-        sign_in_count: 1,
-    }
+#[derive(Debug)]
+struct Rectangle {
+    width: u32,
+    height: u32,
 }
-
-struct Color(i32, i32, i32);
-struct Point(i32, i32, i32);
-
-struct AlwaysEqual;
