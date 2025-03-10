@@ -1,49 +1,91 @@
+use std::fmt::{Debug, Display};
+
 fn main() {
-    let number_list = vec![34, 50, 25, 100, 65];
+    let tweet = Tweet {
+        username: String::from("hourse_ebooks"),
+        content: String::from("of course, as you probably already know, people"),
+        reply: false,
+        retweet: false,
+    };
 
-    let mut largest = &number_list[0];
+    println!("1 new tweet: {}", tweet.summarize());
 
-    for number in &number_list {
-        if number > largest {
-            largest = number;
-        }
-    }
+    let article = NewsArticle {
+        headline: String::from("Penguins win the Stanley Cup Championship!"),
+        location: String::from("Pittsburgh, PA, USA"),
+        author: String::from("Iceburgh"),
+        content: String::from(
+            "The Pittsburgh Penguins once again are the best \
+             hockey team in the NHL.",
+        ),
+    };
 
-    println!("The largest number is {largest}");
-
-    let both_integer = Point { x: 5, y: 10 };
-    let both_float = Point { x: 1.0, y: 4.0 };
-
-    let p = Point { x: 5, y: 10 };
-
-    println!("p.x = {}", p.x());
+    println!("New article available! {}", article.summarize());
 }
 
-fn largest<T>(list: &[T]) -> &T {
-    let mut largest = &list[0];
+pub trait Summary {
+    fn summarize_author(&self) -> String;
 
-    for item in list {
-        if item > largest {
-            largest = item;
-        }
+    fn summarize(&self) -> String {
+        format!("(Read more from {}...)", self.summarize_author())
     }
-
-    largest
 }
 
-struct Point<T> {
+pub struct NewsArticle {
+    pub headline: String,
+    pub location: String,
+    pub author: String,
+    pub content: String,
+}
+
+impl Summary for NewsArticle {
+    fn summarize_author(&self) -> String {
+        format!("Test")
+    }
+}
+
+struct Tweet {
+    username: String,
+    content: String,
+    reply: bool,
+    retweet: bool,
+}
+
+impl Summary for Tweet {
+    fn summarize_author(&self) -> String {
+        format!("@{}", self.username)
+    }
+}
+
+fn notify<T: Summary + Display>(item: &T) {
+    println!("test")
+}
+
+fn some_function<T, U>(t: &T, u: &U) -> i32
+where
+    T: Display + Clone,
+    U: Clone + Debug,
+{
+    3
+}
+
+fn test() -> impl Summary {}
+
+struct Pair<T> {
     x: T,
     y: T,
 }
 
-impl<T> Point<T> {
-    fn x(&self) -> &T {
-        &self.x
+impl<T> Pair<T> {
+    fn new(x: T, y: T) -> Self {
+        Self { x, y }
     }
 }
 
-impl Point<f32> {
-    fn distance_from_origin(&self) -> f32 {
-        (self.x.powi(2) + self.y.powi(2)).sqrt()
+impl<T: Display + PartialOrd> Pair<T> {
+    fn cmp_display(&self) {
+        if self.x >= self.y {
+            println!("test")
+        }
     }
 }
